@@ -48,6 +48,18 @@ function Todo() {
       });
     });
   };
+  
+  this.checkForExistingUser = function(userid){
+    connection.acquire(function(err, con) {
+      con.query('select * from todo_list where id = ?', [userid], function(err, result) {
+        if (err) {
+          res.send({status: 1, message: 'User does not exist'});
+        } else {
+          res.send({status: 0, message: 'User present'});
+        }        
+      });
+    });
+  }
 }
 
 module.exports = new Todo();
